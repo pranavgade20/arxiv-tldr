@@ -19,16 +19,25 @@
 
         if (links[i].href.startsWith("https://arxiv.org/abs/") || links[i].href.startsWith("https://arxiv.org/pdf/")) {
             links[i].addEventListener("mouseenter", function(h){
+                if (i in dict) {
+                    dict[i].remove();
+                    delete dict[i];
+                }
                 var x = window.event.clientX+3;
                 var y = window.event.clientY;
                 var innerDiv = document.createElement('div')
                 innerDiv.style.cssText = 'position:fixed;width:250px;height:300px;z-index:100;background-color:#fff;padding:8px;opacity:1;top:' + y + 'px;left:' + x + 'px;border: 2px solid;padding 5px;overflow-y:scroll;';
 
                 var outerDiv = document.createElement('div')
-                outerDiv.style.cssText = 'position:fixed;width:260px;height:310px;z-index:100;background-color:#fff0;top:' + (y+15) + 'px;left:' + x + 'px;padding 5px;';
-                outerDiv.addEventListener("onclick", function(h) {
+                outerDiv.style.cssText = 'position:fixed;width:270px;height:320px;z-index:100;background-color:#f00;opacity:1;top:' + (y-10) + 'px;left:' + (x-10) + 'px;padding 5px;';
+                outerDiv.addEventListener("click", function(h2) {
                     location.href = h.target.href;
                 })
+                outerDiv.addEventListener("mouseleave", function(h2) {
+                    outerDiv.remove();
+                    delete dict[i];
+                })
+
 
                 outerDiv.appendChild(innerDiv)
                 document.body.appendChild(outerDiv)
@@ -85,10 +94,6 @@
                 })})
 
 
-                outerDiv.addEventListener("mouseleave", function(h) {
-                    outerDiv.remove();
-                    delete dict[i];
-                })
             })
         }
 }
